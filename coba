@@ -1,0 +1,21 @@
+data-bs-toggle="modal" data-bs-target="#jadwalModal"
+
+<?php
+session_start();
+require "../functions.php";
+require "../session.php";
+if ($role !== 'User') {
+  header("location:../login.php");
+};
+
+$id_user = $_SESSION["id_user"];
+$id_lpg = $_GET["id"];
+
+$sewa = query("SELECT sewa_212279.*, lapangan_212279.212279_nama, user_212279.212279_nama_lengkap
+FROM sewa_212279
+JOIN lapangan_212279 ON sewa_212279.212279_id_lapangan = lapangan_212279.212279_id_lapangan
+LEFT JOIN user_212279 ON sewa_212279.212279_id_user = user_212279.212279_id_user
+WHERE lapangan_212279.212279_id_lapangan = '$id_lpg'
+");
+$profil = query("SELECT * FROM user_212279 WHERE 212279_id_user = '$id_user'")[0];
+?>
